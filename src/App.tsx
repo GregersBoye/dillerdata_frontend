@@ -1,20 +1,21 @@
 import React, {useState} from 'react';
+import axios from "axios";
 import './App.css';
 import {Button, Container, FormControlLabel, FormLabel, Radio, RadioGroup, Switch, TextField} from '@material-ui/core';
 
-
-
-function App() {
-    const {checked, setChecked} = useState(false);
-    const {isFunny, setIsFunny } = useState(false);
-    const {age, setAge}= useState();
-
-    var handleChange = function () {
-
-
+const App = () => {
+    let baseUrl = "https://dillerdata-api.herokuapp.com";
+    if(process.env.NODE_ENV === "development") {
+        baseUrl = "http://localhost:4000";
     }
-    var toggleChecked = () => {
-        setIsFunny(true);
+    const [isFunny, setIsFunny] = useState<boolean>(false);
+    const [age, setAge]= useState<string>("");
+    const [gender, setGender] = useState<string>("");
+
+    const handleSubmit = async () => {
+        const data = {isFunny, age, gender};
+        const result = await axios.post(`${baseUrl}/add_answer`, data);
+
     }
 
     return (
@@ -22,21 +23,23 @@ function App() {
 
 
             <h1>Den store Dillerdaller-undersøgelse</h1>
-            <TextField id="standard-basic" label="Alder"/>
+            <TextField id="standard-basic" label="Alder" value={age} onChange={(e: any) =>  {setAge(e.target.value)}} />
 
             <FormLabel component="legend">Køn</FormLabel>
-            <RadioGroup aria-label="gender" name="gender1" value={age} onChange={handleChange}>
-                <FormControlLabel value="female" control={<Radio/>} label="Female"/>
-                <FormControlLabel value="male" control={<Radio/>} label="Male"/>
+            <RadioGroup aria-label="gender" name="gender1" value={age} onChange={(e:any) => setGender(e.target.value)}>
+                <FormControlLabel value="female" control={<Radio/>} checked={gender === "female"} label="Female"/>
+                <FormControlLabel value="male" control={<Radio/>} checked={gender === "male"} label="Male"/>
 
             </RadioGroup>
 
 
             <FormControlLabel
-                control={<Switch size="small" checked={checked} onChange={toggleChecked}/>}
+                control={<Switch size="small" checked={isFunny} onChange={() => {setIsFunny((old) => !old)}}/>}
                 label="Er John sjov?"
             />
-            <Button variant="contained" color="primary">
+
+            <br />
+            <Button variant="contained" color="primary" onClick={handleSubmit}>
                 Indsend
             </Button>
         </Container>)
