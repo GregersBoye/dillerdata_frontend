@@ -14,7 +14,7 @@ const App = () => {
 
     const handleSubmit = async () => {
         const data = {isFunny, age, gender};
-        const result = await axios.post(`${baseUrl}/add_answer`, data);
+        await axios.post(`${baseUrl}/v1/add_answer`, data);
 
     }
 
