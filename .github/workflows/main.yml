@@ -1,5 +1,4 @@
-name: Build, test, and lint
-
+name: Deploy diller
 on:
   push:
     branches: [ master ]
