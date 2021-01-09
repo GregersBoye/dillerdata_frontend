@@ -109,7 +109,7 @@ const App = () => {
 
             <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
                 <Alert onClose={handleClose} severity="success">
-                    {text}
+                    Din besvarelse er modtaget - tak!
                 </Alert>
             </Snackbar>
 
