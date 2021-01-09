@@ -47,7 +47,7 @@ const App = () => {
         await axios.post(`${baseUrl}/v1/answers`, data);
         setOpen(true);
     }
-    
+
     const Alert = (props: any) => {
         return <MuiAlert elevation={6} variant="filled" {...props} />;
     }
